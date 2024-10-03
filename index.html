@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cell Bio Exam 2 Practice</title>
+
+    <style>
+        /* Importing Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 40px;
+        }
+
+        /* Container for Quiz */
+        #quiz {
+            width: 100%;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        /* Card Style for Questions */
+        .question {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .question h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        /* Styled list for options */
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .options li {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            background-color: #f0f4f8;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .options li:hover {
+            background-color: #d1e8ff;
+        }
+
+        /* Button Style */
+        .btn {
+            display: block;
+            width: 100%;
+            max-width: 250px;
+            margin: 30px auto;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #3498db, #8e44ad);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #6d42b6;
+            transform: translateY(-5px);
+        }
+
+.correct {
+    color: green;
+    font-weight: bold;
+}
+
+.incorrect {
+    color: red;
+    font-weight: bold;
+}
+
+        /* Feedback Styles */
+        #result {
+            font-size: 1.2em;
+            text-align: center;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        #result.visible {
+            opacity: 1;
+        }
+
+        /* Responsive for smaller screens */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Cell Bio Exam 2 Practice</h1>
+    <div id="quiz"></div>
+    <button class="btn" onclick="checkAnswers()">Submit</button>
+    <div id="result"></div>
+
+    <script>
+         const questions = [
+         {
+    question: "What is the primary function of the extracellular matrix (ECM) in cell communication?",
+    options: [
+        "A) It serves as a barrier preventing any communication between cells.",
+        "B) It anchors cells in place, allowing them to communicate through physical signals.",
+        "C) It provides chemical signals to the nucleus about the external environment.",
+        "D) It supplies the cell with nutrients for metabolic processes."
+    ],
+    correct: 2
+},
+{
+    question: "Which type of extracellular matrix is found in bones and contributes to their hardness?",
+    options: [
+        "A) Glycoprotein matrix.",
+        "B) Fluid matrix.",
+        "C) Mineralized matrix.",
+        "D) Water-based matrix."
+    ],
+    correct: 2
+},
+{
+    question: "What distinguishes secretion from excretion in terms of cell activity related to the extracellular matrix?",
+    options: [
+        "A) Secretion involves the removal of metabolic waste.",
+        "B) Secretion involves moving useful materials, while excretion removes waste.",
+        "C) Excretion involves producing components of the ECM.",
+        "D) Secretion and excretion both refer to the removal of unnecessary materials."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following is NOT a component of the plant cell wall during its formation?",
+    options: [
+        "A) Primary cell wall made of cellulose.",
+        "B) Secondary cell wall with lignin.",
+        "C) Middle lamella made of pectin.",
+        "D) Mineralized matrix containing calcium."
+    ],
+    correct: 3
+},
+{
+    question: "What role does collagen play in the extracellular matrix of bone?",
+    options: [
+        "A) It promotes the rigidity of the bone.",
+        "B) It allows bones to bend slightly, providing flexibility.",
+        "C) It aids in mineralization of bone by binding calcium.",
+        "D) It serves as a lubricant between bone cells."
+    ],
+    correct: 1
+},
+{
+    question: "What is the function of plasmodesmata in plant cells?",
+    options: [
+        "A) They allow for the passage of water between cells.",
+        "B) They help maintain the rigidity of the cell wall.",
+        "C) They provide direct connections between adjacent plant cells for material exchange.",
+        "D) They facilitate the secretion of the secondary cell wall."
+    ],
+    correct: 2
+},
+{
+    question: "Which type of extracellular matrix is primarily associated with the movement of blood cells?",
+    options: [
+        "A) Glycoprotein matrix.",
+        "B) Fluid matrix.",
+        "C) Mineralized matrix.",
+        "D) Collagen matrix."
+    ],
+    correct: 1
+},
+{
+    question: "How does the secondary cell wall in plants contribute to the strength of the plant cell?",
+    options: [
+        "A) By binding pectin in multiple layers.",
+        "B) By aligning cellulose, hemicellulose, and lignin in different directions for increased toughness.",
+        "C) By increasing flexibility with high amounts of water.",
+        "D) By forming plasmodesmata connections between cells."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following best explains the function of proteoglycans in the extracellular matrix of bones?",
+    options: [
+        "A) They enhance the rigidity of the matrix by binding to minerals.",
+        "B) They provide hydration and lubrication to the matrix by binding large amounts of water.",
+        "C) They act as enzymes that speed up mineral deposition in bone.",
+        "D) They strengthen the bonds between calcium and phosphate ions."
+    ],
+    correct: 1
+},
+{
+    question: "What is the role of the extracellular matrix in maintaining cellular pH?",
+    options: [
+        "A) It binds excess hydrogen ions to prevent acidity.",
+        "B) It helps neutralize metabolic waste products released by cells.",
+        "C) It prevents cells from being affected by changes in blood pH.",
+        "D) It regulates pH by exchanging ions with nearby cells."
+    ],
+    correct: 0
+},
+{
+    question: "What distinguishes an exergonic reaction from an endergonic reaction?",
+    options: [
+        "A) Exergonic reactions require heat input, while endergonic reactions release heat.",
+        "B) Exergonic reactions release heat and increase entropy, while endergonic reactions require energy and decrease entropy.",
+        "C) Exergonic reactions involve energy loss, while endergonic reactions increase disorder.",
+        "D) Exergonic reactions occur only in anabolic pathways, while endergonic reactions are catabolic."
+    ],
+    correct: 1
+},
+{
+    question: "How do coenzymes and cofactors assist enzymes in catalyzing reactions?",
+    options: [
+        "A) They bind to substrates and increase reaction speed.",
+        "B) They stabilize the enzyme's active site and aid in substrate binding.",
+        "C) They lower the enzyme's turnover rate, preventing overactivity.",
+        "D) They act as competitive inhibitors, temporarily halting enzyme function."
+    ],
+    correct: 1
+},
+{
+    question: "What happens to enzymes when subjected to non-optimal pH levels?",
+    options: [
+        "A) They denature and lose their ability to catalyze reactions.",
+        "B) They increase their turnover rate, enhancing their efficiency.",
+        "C) They become saturated and stop functioning entirely.",
+        "D) They bind more tightly to substrates to resist denaturation."
+    ],
+    correct: 0
+},
+{
+    question: "What is the effect of a noncompetitive inhibitor on an enzyme?",
+    options: [
+        "A) It binds to the active site, directly preventing substrate binding.",
+        "B) It binds to a separate site on the enzyme, altering its conformation and reducing enzyme activity.",
+        "C) It increases the enzyme's turnover rate by binding to allosteric sites.",
+        "D) It binds to the substrate, preventing it from binding to the enzyme."
+    ],
+    correct: 1
+},
+{
+    question: "What role does ATP play in the feedback regulation of phosphofructokinase (PFK) during glycolysis?",
+    options: [
+        "A) ATP binds to the active site of PFK, inhibiting its activity.",
+        "B) ATP binds to an allosteric site, causing PFK to change shape and halt glycolysis.",
+        "C) ATP promotes the binding of ADP to PFK, increasing its activity.",
+        "D) ATP is hydrolyzed, providing energy for PFK to catalyze the reaction."
+    ],
+    correct: 1
+},
+{
+    question: "What is the key difference between competitive and noncompetitive inhibition?",
+    options: [
+        "A) Competitive inhibition involves binding to the active site, while noncompetitive inhibition involves binding to a separate site on the enzyme.",
+        "B) Noncompetitive inhibition increases enzyme turnover rate, while competitive inhibition decreases it.",
+        "C) Competitive inhibition alters enzyme shape, while noncompetitive inhibition does not.",
+        "D) Noncompetitive inhibition is reversible, while competitive inhibition is permanent."
+    ],
+    correct: 0
+},
+{
+    question: "Why is saturation an important concept in enzyme kinetics?",
+    options: [
+        "A) It refers to the point at which an enzyme can no longer bind to substrates, limiting reaction speed.",
+        "B) It occurs when substrates outnumber enzymes, causing enzymes to denature.",
+        "C) It indicates the maximum possible rate of a reaction, achieved when all substrates are bound to cofactors.",
+        "D) It refers to the moment when enzymes become deactivated due to excessive heat."
+    ],
+    correct: 0
+},
+{
+    question: "What happens to the entropy of a system during an anabolic reaction?",
+    options: [
+        "A) Entropy increases as complex molecules are broken down.",
+        "B) Entropy decreases as simpler molecules are built into complex ones.",
+        "C) Entropy remains constant throughout the reaction.",
+        "D) Entropy fluctuates depending on the substrate."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following is a characteristic of an enzyme’s active site?",
+    options: [
+        "A) It is non-specific and can bind to a wide variety of substrates.",
+        "B) It binds specifically to the substrate and forms the enzyme-substrate complex.",
+        "C) It undergoes denaturation during the reaction process.",
+        "D) It is involved in increasing the entropy of the reaction."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following best describes the relationship between enzymes and heat?",
+    options: [
+        "A) High heat increases enzyme activity indefinitely.",
+        "B) Enzymes are unaffected by heat within a wide temperature range.",
+        "C) Heat can cause enzyme denaturation if temperatures exceed optimal levels.",
+        "D) Heat is required for all enzymes to function properly."
+    ],
+    correct: 2
+},
+{
+    question: "Which of the following is a likely consequence of increasing the amount of proteoglycans in the extracellular matrix (ECM)?",
+    options: [
+        "A) Increased pH of the surrounding extracellular space.",
+        "B) Decreased water absorption capacity of the ECM.",
+        "C) Enhanced ability to anchor cells in place.",
+        "D) Decreased cell-to-cell communication."
+    ],
+    correct: 2
+},
+{
+    question: "A researcher observes that plant cells are secreting a material that forms a structural barrier between cells. Which material is most likely being secreted?",
+    options: [
+        "A) Glycoprotein.",
+        "B) Metabolic waste.",
+        "C) Pectin.",
+        "D) Hemicellulose."
+    ],
+    correct: 2
+},
+{
+    question: "A mutant plant with a defective desmotubule is observed. What is the most likely consequence of this mutation on the plant?",
+    options: [
+        "A) Increased rigidity of cell walls due to over-accumulation of lignin.",
+        "B) Uncontrolled transfer of molecules between plant cells.",
+        "C) Loss of structural support from the extracellular matrix.",
+        "D) Reduced formation of primary cell walls during mitosis."
+    ],
+    correct: 1
+},
+{
+    question: "What is the likely outcome if a plant cell fails to produce the middle lamella during mitosis?",
+    options: [
+        "A) The primary cell wall would not be secreted.",
+        "B) The two new daughter cells would not separate.",
+        "C) The secondary cell wall would not form properly.",
+        "D) Cell communication would cease completely."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following best describes the difference between excretion and secretion in cells?",
+    options: [
+        "A) Excretion involves removing waste, while secretion involves releasing useful substances.",
+        "B) Secretion removes waste, while excretion involves moving useful materials.",
+        "C) Both processes involve waste removal from the cell.",
+        "D) Secretion involves energy production, while excretion requires no energy."
+    ],
+    correct: 0
+},
+{
+    question: "Which of the following best describes the role of the extracellular matrix (ECM) in cell communication?",
+    options: [
+        "A) The ECM blocks communication between cells to maintain homeostasis.",
+        "B) The ECM helps transmit information about the external environment to the nucleus.",
+        "C) The ECM only provides structural support, not communication.",
+        "D) The ECM prevents substances from entering the cell."
+    ],
+    correct: 1
+},
+{
+    question: "How does the extracellular matrix (ECM) help maintain the pH balance of cells?",
+    options: [
+        "A) By preventing acid from entering the cell.",
+        "B) By anchoring cells to the nucleus.",
+        "C) By buffering the pH of the space between cells.",
+        "D) By facilitating active transport of hydrogen ions across the cell membrane."
+    ],
+    correct: 2
+},
+{
+    question: "Which of the following correctly describes the role of glycoproteins in the extracellular matrix (ECM)?",
+    options: [
+        "A) They are the primary structural component of bone matrix.",
+        "B) They anchor cells and facilitate cell-to-cell communication.",
+        "C) They form the mineralized matrix of prokaryotes and fungi.",
+        "D) They prevent water from entering the ECM."
+    ],
+    correct: 1
+},
+{
+    question: "What is the primary function of the middle lamella in plant cells?",
+    options: [
+        "A) To act as a barrier against pathogens.",
+        "B) To help with cell division.",
+        "C) To bind adjacent plant cells together using pectin.",
+        "D) To form the secondary cell wall."
+    ],
+    correct: 2
+},
+{
+    question: "The primary and secondary cell walls in plants contain cellulose. What additional component in the secondary cell wall makes it much stronger?",
+    options: [
+        "A) Hemicellulose.",
+        "B) Pectin.",
+        "C) Glycoproteins.",
+        "D) Lignin."
+    ],
+    correct: 3
+},
+{
+    question: "Which of the following best describes plasmodesmata in plant cells?",
+    options: [
+        "A) They prevent the exchange of materials between adjacent plant cells.",
+        "B) They are connections between plant cells that allow material exchange.",
+        "C) They form the secondary cell wall during mitosis.",
+        "D) They act as inhibitors of cell communication."
+    ],
+    correct: 1
+},
+{
+    question: "What is the role of desmotubules in plant cells?",
+    options: [
+        "A) To transport proteins to the nucleus.",
+        "B) To control the exchange of materials through plasmodesmata.",
+        "C) To help the cell expand during mitosis.",
+        "D) To provide structural support for the plant cell wall."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following best explains how bones remain flexible yet strong?",
+    options: [
+        "A) Bones are composed entirely of rigid calcium and magnesium.",
+        "B) The collagen in bone provides flexibility, while hydroxyapatite provides strength.",
+        "C) Bone flexibility is solely due to its phosphate content.",
+        "D) Bones contain large amounts of water, which makes them flexible."
+    ],
+    correct: 1
+},
+{
+    question: "Proteoglycans, found in the extracellular matrix (ECM) of animal cells, have which of the following properties?",
+    options: [
+        "A) They bind large amounts of water, allowing tissues to resist compression.",
+        "B) They are composed solely of proteins and help maintain cell rigidity.",
+        "C) They bind enzymes to substrates, assisting in catalytic reactions.",
+        "D) They prevent the movement of ions across cell membranes."
+    ],
+    correct: 0
+},
+{
+    question: "Which of the following correctly identifies a function of the extracellular matrix (ECM) in animal cells?",
+    options: [
+        "A) The ECM stores and releases enzymes for metabolic pathways.",
+        "B) The ECM facilitates structural support, communication, and growth factor sequestration.",
+        "C) The ECM prevents cells from moving by anchoring them tightly together.",
+        "D) The ECM acts as the primary storage site for calcium in the body."
+    ],
+    correct: 1
+},
+{
+    question: "What property of proteoglycans allows them to absorb up to 50 times their weight in water?",
+    options: [
+        "A) Their protein core binds large amounts of ions.",
+        "B) Their sugar chains bind large amounts of water.",
+        "C) Their enzymatic activity increases water retention.",
+        "D) Their ability to undergo oxidation-reduction reactions."
+    ],
+    correct: 1
+},
+{
+    question: "Why do cells need to regulate enzyme activity through feedback inhibition?",
+    options: [
+        "A) To maximize energy consumption and ensure continuous production of all compounds.",
+        "B) To prevent unnecessary energy expenditure and halt pathways when products are in excess.",
+        "C) To increase the activity of enzymes involved in ATP production.",
+        "D) To make sure enzymes are used up as quickly as possible."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following best explains the role of coenzymes and cofactors in enzymatic reactions?",
+    options: [
+        "A) They act as substrates for enzymes.",
+        "B) They help enzymes bind to their substrates by stabilizing the enzyme-substrate complex.",
+        "C) They inhibit enzymes by competing with the substrate.",
+        "D) They alter the enzyme's tertiary structure to slow the reaction."
+    ],
+    correct: 1
+},
+{
+    question: "What is the key function of allosteric binding sites in enzymes such as phosphofructokinase (PFK)?",
+    options: [
+        "A) They increase enzyme-substrate specificity.",
+        "B) They allow the binding of regulatory molecules that alter the enzyme's activity.",
+        "C) They act as competitive inhibitors of the enzyme's active site.",
+        "D) They bind only coenzymes required for enzyme function."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following best describes the 1st Law of Thermodynamics?",
+    options: [
+        "A) Energy is lost during chemical reactions.",
+        "B) Energy is created and destroyed in cells.",
+        "C) Energy is neither created nor destroyed, only transformed.",
+        "D) Energy is used up completely during metabolic reactions."
+    ],
+    correct: 2
+},
+{
+    question: "In a redox reaction, what happens when a molecule gains electrons?",
+    options: [
+        "A) It becomes oxidized and gains energy.",
+        "B) It becomes reduced and gains energy.",
+        "C) It becomes reduced and loses energy.",
+        "D) It becomes oxidized and loses energy."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following statements best describes anabolic reactions?",
+    options: [
+        "A) Anabolic reactions build molecules and increase entropy.",
+        "B) Anabolic reactions break down molecules and increase entropy.",
+        "C) Anabolic reactions build molecules and decrease entropy.",
+        "D) Anabolic reactions break down molecules and decrease entropy."
+    ],
+    correct: 2
+},
+{
+    question: "How do enzymes lower the activation energy of a chemical reaction?",
+    options: [
+        "A) By providing the energy required for the reaction to occur.",
+        "B) By speeding up the movement of molecules.",
+        "C) By altering the reactants to release heat.",
+        "D) By stabilizing the transition state and reducing energy needed to initiate the reaction."
+    ],
+    correct: 3
+},
+{
+    question: "Which of the following is an example of competitive inhibition in enzyme activity?",
+    options: [
+        "A) A molecule binds to a site other than the active site, changing enzyme shape.",
+        "B) An inhibitor blocks the active site, preventing the substrate from binding.",
+        "C) A cofactor binds to an enzyme, increasing its activity.",
+        "D) The enzyme undergoes a shape change to increase reaction speed."
+    ],
+    correct: 1
+},
+{
+    question: "What is the main function of ATP in cellular metabolism?",
+    options: [
+        "A) To act as a coenzyme for redox reactions.",
+        "B) To provide energy by breaking its high-energy phosphate bonds.",
+        "C) To oxidize glucose during glycolysis.",
+        "D) To produce light and heat during metabolic reactions."
+    ],
+    correct: 1
+},
+{
+    question: "What happens to an enzyme if the temperature exceeds its optimum range?",
+    options: [
+        "A) The enzyme speeds up the reaction indefinitely.",
+        "B) The enzyme will denature and lose its functional shape.",
+        "C) The enzyme becomes more efficient at binding substrates.",
+        "D) The enzyme will increase the rate of ATP production."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following best explains the role of phosphofructokinase (PFK) in glycolysis?",
+    options: [
+        "A) It controls the rate of glycolysis through feedback inhibition and activation.",
+        "B) It is the enzyme responsible for breaking down glucose molecules.",
+        "C) It forms the final ATP molecule in glycolysis.",
+        "D) It prevents the production of pyruvate."
+    ],
+    correct: 0
+},
+{
+    question: "Why is feedback inhibition important in regulating metabolic pathways?",
+    options: [
+        "A) It increases the production of unnecessary metabolic products.",
+        "B) It allows the body to conserve energy by stopping pathways that are no longer needed.",
+        "C) It ensures that substrates never reach enzyme active sites.",
+        "D) It promotes the excessive production of metabolic end products."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following is NOT a characteristic of catabolic reactions?",
+    options: [
+        "A) They release energy.",
+        "B) They increase entropy.",
+        "C) They decrease disorder.",
+        "D) They involve the breakdown of molecules."
+    ],
+    correct: 2
+},
+{
+    question: "What type of enzyme regulation is demonstrated when a molecule binds to a site other than the enzyme's active site, causing a conformational change that inhibits function?",
+    options: [
+        "A) Competitive inhibition.",
+        "B) Allosteric inhibition.",
+        "C) Feedback inhibition.",
+        "D) Positive feedback control."
+    ],
+    correct: 1
+},
+{
+    question: "In cellular respiration, why is the oxidation of ATP to ADP significant?",
+    options: [
+        "A) It provides electrons to the electron transport chain.",
+        "B) It increases the entropy of the cell.",
+        "C) It releases energy that can be used to power cellular processes.",
+        "D) It stops the cell from overheating."
+    ],
+    correct: 2
+},
+{
+    question: "What is the purpose of coenzymes in enzymatic reactions?",
+    options: [
+        "A) They increase the rate of reaction by binding to the active site.",
+        "B) They assist in enzyme function by helping to bind the substrate.",
+        "C) They inhibit enzyme activity by competing with the substrate.",
+        "D) They denature the enzyme, preventing the reaction from occurring."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following describes a property of enzymes that explains why they have maximum rates of action (turnover rates)?",
+    options: [
+        "A) Enzymes supply the activation energy for reactions.",
+        "B) Enzymes only function when coenzymes are present.",
+        "C) Enzymes can become saturated when all active sites are occupied.",
+        "D) Enzymes increase reaction speed indefinitely with increasing substrate concentration."
+    ],
+    correct: 2
+},
+{
+    question: "Which enzyme has an optimum pH of 2, making it particularly active in the acidic environment of the stomach?",
+    options: [
+        "A) Pepsin.",
+        "B) Amylase.",
+        "C) Arginase.",
+        "D) Lipase."
+    ],
+    correct: 0
+},
+{
+    question: "A patient has elevated blood glucose levels but is not responding effectively to insulin. Which GLUT transporter is primarily responsible for glucose uptake in muscle and adipose tissue that may be affected by insulin resistance?",
+    options: [
+        "A) GLUT 1",
+        "B) GLUT 2",
+        "C) GLUT 4",
+        "D) GLUT 5"
+    ],
+    correct: 2
+},
+{
+    question: "In which of the following processes is glucose first converted into glucose-6-phosphate, and what enzyme facilitates this conversion?",
+    options: [
+        "A) Glycolysis; phosphofructokinase",
+        "B) Krebs Cycle; isocitrate dehydrogenase",
+        "C) Glycolysis; hexokinase",
+        "D) Fermentation; lactate dehydrogenase"
+    ],
+    correct: 2
+},
+{
+    question: "Why is glycolysis considered an anaerobic process, and what would happen if it were to proceed without sufficient NAD+?",
+    options: [
+        "A) It occurs in the mitochondria; NAD+ would be regenerated by the Krebs Cycle.",
+        "B) It occurs in the cytoplasm; NADH would accumulate and inhibit glycolysis.",
+        "C) It requires oxygen; ATP production would cease.",
+        "D) It produces CO2; ATP levels would decrease significantly."
+    ],
+    correct: 1
+},
+{
+    question: "If a muscle cell runs out of oxygen during intense exercise, which of the following metabolic pathways is activated to regenerate NAD+?",
+    options: [
+        "A) Krebs Cycle",
+        "B) Fermentation",
+        "C) Electron Transport Chain",
+        "D) Gluconeogenesis"
+    ],
+    correct: 1
+},
+{
+    question: "A researcher finds that inhibiting phosphofructokinase (PFK) slows down glycolysis. Which of the following would most likely result from this inhibition?",
+    options: [
+        "A) Increased ATP production",
+        "B) Decreased pyruvate production",
+        "C) Increased NAD+ levels",
+        "D) Enhanced Krebs Cycle activity"
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following best describes the role of Acetyl-CoA in cellular respiration?",
+    options: [
+        "A) It is produced from glycolysis and enters the Krebs Cycle as a 6-carbon molecule.",
+        "B) It is the end product of glycolysis and is converted to glucose.",
+        "C) It is derived from pyruvate and enters the Krebs Cycle as a 2-carbon molecule.",
+        "D) It is generated in the Krebs Cycle and converted into ATP directly."
+    ],
+    correct: 2
+},
+{
+    question: "In a typical cell, how is the majority of ATP produced during cellular respiration?",
+    options: [
+        "A) Glycolysis",
+        "B) Krebs Cycle",
+        "C) Oxidative phosphorylation in the Electron Transport Chain",
+        "D) Substrate-level phosphorylation"
+    ],
+    correct: 2
+},
+{
+    question: "During the Krebs Cycle, what happens to the carbons originally found in glucose?",
+    options: [
+        "A) They are converted into ATP.",
+        "B) They are released as CO2.",
+        "C) They are stored as glycogen.",
+        "D) They are used to synthesize fatty acids."
+    ],
+    correct: 1
+},
+{
+    question: "What is the function of insulin in the context of glucose uptake in the body?",
+    options: [
+        "A) It directly transports glucose into cells.",
+        "B) It enhances the transcription of GLUT transporters in all cell types.",
+        "C) It promotes the translocation of GLUT 4 transporters to the cell membrane.",
+        "D) It decreases the permeability of cell membranes to glucose."
+    ],
+    correct: 2
+},
+{
+    question: "In a patient with diabetes, the regulation of blood glucose levels is impaired. Which organ is primarily responsible for maintaining blood glucose homeostasis?",
+    options: [
+        "A) Muscle",
+        "B) Liver",
+        "C) Kidneys",
+        "D) Pancreas"
+    ],
+    correct: 1
+},
+{
+    question: "In glycolysis, what is the net gain of ATP molecules from one molecule of glucose?",
+    options: [
+        "A) 1 ATP",
+        "B) 2 ATP",
+        "C) 4 ATP",
+        "D) 6 ATP"
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following enzymes is inhibited by high levels of ATP, signaling the cell's energy status?",
+    options: [
+        "A) Hexokinase",
+        "B) Phosphofructokinase",
+        "C) Pyruvate Kinase",
+        "D) Lactate Dehydrogenase"
+    ],
+    correct: 1
+},
+{
+    question: "A scientist observes that cells are using anaerobic respiration. What is the most likely byproduct of this process in muscle cells?",
+    options: [
+        "A) Ethanol",
+        "B) Lactate",
+        "C) Acetyl-CoA",
+        "D) GTP"
+    ],
+    correct: 1
+},
+{
+    question: "If pyruvate is converted to lactate, what molecule is regenerated that allows glycolysis to continue?",
+    options: [
+        "A) FADH2",
+        "B) NADH",
+        "C) NAD+",
+        "D) ATP"
+    ],
+    correct: 2
+},
+{
+    question: "During the Krebs Cycle, for every turn of the cycle, how many molecules of NADH are produced?",
+    options: [
+        "A) 1 NADH",
+        "B) 2 NADH",
+        "C) 3 NADH",
+        "D) 4 NADH"
+    ],
+    correct: 2
+},
+{
+    question: "What role does oxaloacetate play in the Krebs Cycle?",
+    options: [
+        "A) It is a product of the cycle.",
+        "B) It combines with Acetyl-CoA to initiate the cycle.",
+        "C) It regenerates NAD+.",
+        "D) It converts GTP to ATP."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following statements about the Electron Transport Chain (ETC) is true?",
+    options: [
+        "A) It takes place in the cytoplasm.",
+        "B) It directly produces ATP through substrate-level phosphorylation.",
+        "C) It generates a proton gradient used for ATP synthesis.",
+        "D) It does not require oxygen."
+    ],
+    correct: 2
+},
+{
+    question: "A person is fasting and their body needs to utilize stored energy. Which process allows the body to convert stored glycogen into glucose?",
+    options: [
+        "A) Glycolysis",
+        "B) Glycogenesis",
+        "C) Glycogenolysis",
+        "D) Gluconeogenesis"
+    ],
+    correct: 2
+},
+{
+    question: "If a muscle cell is deprived of oxygen for an extended period, what is the main metabolic shift that occurs?",
+    options: [
+        "A) Increase in Krebs Cycle activity",
+        "B) Shift from aerobic to anaerobic metabolism",
+        "C) Increased ATP production via oxidative phosphorylation",
+        "D) Increased gluconeogenesis"
+    ],
+    correct: 1
+},
+{
+    question: "What is the significance of the Cori Cycle in human metabolism?",
+    options: [
+        "A) It converts glucose into fatty acids.",
+        "B) It regenerates glucose from lactate.",
+        "C) It produces ATP from lactate.",
+        "D) It facilitates the conversion of pyruvate to Acetyl-CoA."
+    ],
+    correct: 1
+},
+{
+    question: "In the context of energy metabolism, which statement accurately describes the relationship between ATP and ADP?",
+    options: [
+        "A) ATP is more stable than ADP and cannot be converted back.",
+        "B) ADP can be phosphorylated to form ATP, storing energy.",
+        "C) ATP production decreases cellular energy levels.",
+        "D) ADP acts as a high-energy carrier."
+    ],
+    correct: 1
+},
+{
+    question: "How does a high concentration of glucose-6-phosphate regulate glycolysis?",
+    options: [
+        "A) It stimulates hexokinase activity.",
+        "B) It activates phosphofructokinase.",
+        "C) It inhibits hexokinase.",
+        "D) It promotes pyruvate kinase activity."
+    ],
+    correct: 2
+},
+{
+    question: "During aerobic respiration, which of the following processes produces the most ATP per glucose molecule?",
+    options: [
+        "A) Glycolysis",
+        "B) Krebs Cycle",
+        "C) Electron Transport Chain",
+        "D) Fermentation"
+    ],
+    correct: 2
+},
+{
+    question: "A mutation in the gene coding for pyruvate kinase could lead to which of the following outcomes?",
+    options: [
+        "A) Increased production of Acetyl-CoA",
+        "B) Accumulation of phosphoenolpyruvate (PEP)",
+        "C) Decreased conversion of glucose to ATP",
+        "D) Increased lactate production"
+    ],
+    correct: 2
+},
+{
+    question: "What type of transport mechanism do GLUT transporters utilize to allow glucose entry into cells?",
+    options: [
+        "A) Active transport",
+        "B) Facilitated diffusion",
+        "C) Endocytosis",
+        "D) Osmosis"
+    ],
+    correct: 1
+},
+{
+    question: "What happens to the FADH2 generated in the Krebs Cycle?",
+    options: [
+        "A) It is converted back to FAD.",
+        "B) It donates electrons to the Electron Transport Chain.",
+        "C) It is used to produce glucose.",
+        "D) It is converted to ATP directly."
+    ],
+    correct: 1
+},
+{
+    question: "Why is it critical for cells to regenerate NAD+ during glycolysis?",
+    options: [
+        "A) It is needed for ATP production.",
+        "B) It is essential for the Krebs Cycle to function.",
+        "C) It allows glycolysis to continue by facilitating the conversion of pyruvate.",
+        "D) It prevents the accumulation of glucose."
+    ],
+    correct: 2
+},
+{
+    question: "In which cellular compartment does the Krebs Cycle take place?",
+    options: [
+        "A) Cytoplasm",
+        "B) Mitochondrial outer membrane",
+        "C) Mitochondrial inner membrane",
+        "D) Mitochondrial matrix"
+    ],
+    correct: 3
+},
+{
+    question: "What is the primary location of the Electron Transport Chain (ETC) in eukaryotic cells?",
+    options: [
+        "A) Cytoplasm",
+        "B) Mitochondrial outer membrane",
+        "C) Mitochondrial inner membrane",
+        "D) Nucleus"
+    ],
+    correct: 2
+},
+{
+    question: "Which complex does NADH bind to in the Electron Transport Chain?",
+    options: [
+        "A) Complex 1",
+        "B) Complex 2",
+        "C) Complex 3",
+        "D) Complex 4"
+    ],
+    correct: 0
+},
+{
+    question: "What happens to NADH when it binds to Complex 1 of the ETC?",
+    options: [
+        "A) It is converted to NAD+ and protons are pumped.",
+        "B) It is converted to FADH.",
+        "C) It directly produces ATP.",
+        "D) It leaves the mitochondria."
+    ],
+    correct: 0
+},
+{
+    question: "What role does oxygen play at the end of the Electron Transport Chain?",
+    options: [
+        "A) It produces ATP.",
+        "B) It serves as the final electron acceptor.",
+        "C) It binds with protons to form glucose.",
+        "D) It initiates the Krebs Cycle."
+    ],
+    correct: 1
+},
+{
+    question: "What is the purpose of the proton gradient created during the Electron Transport Chain?",
+    options: [
+        "A) It generates NADH.",
+        "B) It drives ATP synthesis.",
+        "C) It converts glucose to pyruvate.",
+        "D) It inhibits the Krebs Cycle."
+    ],
+    correct: 1
+},
+{
+    question: "What is the function of Complex 5 (ATP synthase) in the Electron Transport Chain?",
+    options: [
+        "A) It pumps protons across the mitochondrial membrane.",
+        "B) It generates ATP from ADP and inorganic phosphate.",
+        "C) It reduces oxygen to water.",
+        "D) It converts glucose to pyruvate."
+    ],
+    correct: 1
+},
+{
+    question: "How much ATP is generated from one NADH molecule during the Electron Transport Chain?",
+    options: [
+        "A) 1 ATP",
+        "B) 2 ATP",
+        "C) 3 ATP",
+        "D) 4 ATP"
+    ],
+    correct: 2
+},
+{
+    question: "What is the total yield of ATP from the complete oxidation of one glucose molecule?",
+    options: [
+        "A) 30 ATP",
+        "B) 32 ATP",
+        "C) 36 ATP",
+        "D) 40 ATP"
+    ],
+    correct: 2
+},
+{
+    question: "What is the process by which fatty acids are broken down to Acetyl-CoA called?",
+    options: [
+        "A) Lipolysis",
+        "B) Glycolysis",
+        "C) Beta-oxidation",
+        "D) Gluconeogenesis"
+    ],
+    correct: 2
+},
+{
+    question: "What type of transport mechanism is used for the movement of fatty acids across the mitochondrial membrane?",
+    options: [
+        "A) Facilitated diffusion",
+        "B) Active transport",
+        "C) Simple diffusion",
+        "D) Endocytosis"
+    ],
+    correct: 1
+},
+{
+    question: "What are ketone bodies primarily produced from?",
+    options: [
+        "A) Glucose",
+        "B) Amino acids",
+        "C) Fatty acids",
+        "D) Lactate"
+    ],
+    correct: 2
+},
+{
+    question: "What happens to the glycerol released from fatty acids during metabolism?",
+    options: [
+        "A) It is converted to glucose.",
+        "B) It enters glycolysis at PGAL.",
+        "C) It is used to produce triglycerides.",
+        "D) It is excreted from the body."
+    ],
+    correct: 1
+},
+{
+    question: "What is the role of carnitine acetyltransferase in fatty acid metabolism?",
+    options: [
+        "A) It breaks down fatty acids in peroxisomes.",
+        "B) It transports fatty acids into the mitochondria.",
+        "C) It synthesizes fatty acids from glucose.",
+        "D) It converts Acetyl-CoA to fatty acids."
+    ],
+    correct: 1
+},
+{
+    question: "What is the main source of energy for red blood cells?",
+    options: [
+        "A) Lipids",
+        "B) Proteins",
+        "C) Glycolysis",
+        "D) Krebs Cycle"
+    ],
+    correct: 2
+},
+{
+    question: "Which of the following statements about energy metabolism is true?",
+    options: [
+        "A) Carbohydrates are the only source of energy.",
+        "B) Fats provide more energy than carbohydrates.",
+        "C) Proteins are the primary energy source.",
+        "D) Glycolysis occurs in the mitochondria."
+    ],
+    correct: 1
+},
+{
+    question: "What is the significance of the Cori Cycle in metabolism?",
+    options: [
+        "A) It converts glucose to glycogen.",
+        "B) It regenerates glucose from lactate.",
+        "C) It breaks down fatty acids.",
+        "D) It synthesizes amino acids."
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following amino acids must be obtained through diet?",
+    options: [
+        "A) Alanine",
+        "B) Glutamine",
+        "C) Valine",
+        "D) Glycine"
+    ],
+    correct: 2
+},
+{
+    question: "What is the primary energy source for the heart?",
+    options: [
+        "A) Glucose",
+        "B) Fatty acids",
+        "C) Proteins",
+        "D) Ketone bodies"
+    ],
+    correct: 1
+},
+{
+    question: "During intense starvation, which metabolic process is activated for energy?",
+    options: [
+        "A) Glycolysis",
+        "B) Beta-oxidation",
+        "C) Gluconeogenesis",
+        "D) Krebs Cycle"
+    ],
+    correct: 1
+},
+{
+    question: "What is a common byproduct of fat metabolism?",
+    options: [
+        "A) Lactic acid",
+        "B) Ketone bodies",
+        "C) Glucose",
+        "D) Ethanol"
+    ],
+    correct: 1
+},
+{
+    question: "Which two essential fatty acids must be obtained from the diet?",
+    options: [
+        "A) Oleic and linoleic",
+        "B) Linoleic and alpha-linolenic",
+        "C) Palmitic and stearic",
+        "D) Arachidonic and eicosapentaenoic"
+    ],
+    correct: 1
+},
+{
+    question: "What is the main role of the Krebs Cycle?",
+    options: [
+        "A) To synthesize glucose",
+        "B) To produce ATP, NADH, and FADH2",
+        "C) To oxidize fatty acids",
+        "D) To generate heat"
+    ],
+    correct: 1
+},
+{
+    question: "What does the term 'proton-motive force' refer to?",
+    options: [
+        "A) The movement of electrons in the ETC",
+        "B) The energy stored in a proton gradient",
+        "C) The conversion of glucose to pyruvate",
+        "D) The release of energy during glycolysis"
+    ],
+    correct: 1
+},
+{
+    question: "What happens to the carbon atoms when pyruvate is converted to Acetyl-CoA?",
+    options: [
+        "A) They are released as carbon dioxide.",
+        "B) They are incorporated into fatty acids.",
+        "C) They remain in the mitochondria.",
+        "D) They are stored in the liver."
+    ],
+    correct: 0
+},
+{
+    question: "Which of the following statements is true regarding ATP production in glycolysis?",
+    options: [
+        "A) 4 ATP are produced, but the net gain is 2 ATP.",
+        "B) 4 ATP are produced with no energy cost.",
+        "C) 2 ATP are produced and consumed.",
+        "D) 6 ATP are produced from one glucose."
+    ],
+    correct: 0
+},
+{
+    question: "How many total ATP molecules can be produced from one molecule of glucose through cellular respiration?",
+    options: [
+        "A) 24",
+        "B) 30",
+        "C) 32",
+        "D) 36"
+    ],
+    correct: 2
+},
+{
+    question: "What is the fate of Acetyl-CoA in the Krebs Cycle?",
+    options: [
+        "A) It is converted to glucose.",
+        "B) It is oxidized to produce energy.",
+        "C) It is transformed into fatty acids.",
+        "D) It is stored in the liver."
+    ],
+    correct: 1
+},
+{
+    question: "What byproducts are produced during the breakdown of fatty acids in the mitochondria?",
+    options: [
+        "A) Glucose and ATP",
+        "B) Acetyl-CoA, NADH, and FADH2",
+        "C) Lactic acid and ethanol",
+        "D) Glycerol and triglycerides"
+    ],
+    correct: 1
+},
+{
+    question: "Why do red blood cells rely solely on glycolysis for energy?",
+    options: [
+        "A) They lack mitochondria.",
+        "B) They do not need energy.",
+        "C) They prefer fatty acids for energy.",
+        "D) They cannot metabolize glucose."
+    ],
+    correct: 0
+},
+{
+    question: "What occurs to the energy stored in glucose during cellular respiration?",
+    options: [
+        "A) It is converted to heat.",
+        "B) It is completely lost.",
+        "C) It is stored in ATP.",
+        "D) It is released as light."
+    ],
+    correct: 2
+},
+{
+    question: "In which organelle does the Krebs Cycle take place?",
+    options: [
+        "A) Nucleus",
+        "B) Cytoplasm",
+        "C) Mitochondria",
+        "D) Endoplasmic reticulum"
+    ],
+    correct: 2
+},
+{
+    question: "What is the primary purpose of beta oxidation?",
+    options: [
+        "A) To synthesize fatty acids",
+        "B) To convert fatty acids into Acetyl-CoA",
+        "C) To produce glucose from fats",
+        "D) To generate ATP from glucose"
+    ],
+    correct: 1
+},
+{
+    question: "Which of the following is a direct product of beta oxidation?",
+    options: [
+        "A) NADH and FADH2",
+        "B) Pyruvate and Acetyl-CoA",
+        "C) Glucose and ATP",
+        "D) Lactic acid and ethanol"
+    ],
+    correct: 0
+},
+{
+    question: "How does FADH2 differ from NADH in terms of ATP production during the electron transport chain?",
+    options: [
+        "A) FADH2 produces more ATP than NADH.",
+        "B) FADH2 is produced only in the Krebs Cycle.",
+        "C) FADH2 generates 2 ATP while NADH generates 3 ATP.",
+        "D) FADH2 cannot be used in the electron transport chain."
+    ],
+    correct: 2
+},
+{
+    question: "What role does oxygen play in the electron transport chain?",
+    options: [
+        "A) It serves as the primary energy source.",
+        "B) It acts as a proton pump.",
+        "C) It functions as the final electron acceptor.",
+        "D) It is used to synthesize ATP directly."
+    ],
+    correct: 2
+},
+{
+    question: "What is the function of ATP synthase in the electron transport chain?",
+    options: [
+        "A) To pump protons across the mitochondrial membrane.",
+        "B) To convert ADP and inorganic phosphate into ATP.",
+        "C) To transfer electrons through the complexes.",
+        "D) To produce NADH and FADH2."
+    ],
+    correct: 1
+},
+{
+    question: "Which complex in the electron transport chain receives electrons from FADH2?",
+    options: [
+        "A) Complex I",
+        "B) Complex II",
+        "C) Complex III",
+        "D) Complex IV"
+    ],
+    correct: 1
+},
+{
+    question: "What happens to the hydrogen ions (protons) during the electron transport chain?",
+    options: [
+        "A) They are converted into ATP directly.",
+        "B) They are pumped into the mitochondrial matrix.",
+        "C) They create a proton gradient in the intermembrane space.",
+        "D) They are released into the cytoplasm."
+    ],
+    correct: 2
+},
+{
+    question: "How many ATP can be generated from one molecule of palmitic acid (a 16-carbon fatty acid) through beta oxidation?",
+    options: [
+        "A) 66 ATP",
+        "B) 80 ATP",
+        "C) 108 ATP",
+        "D) 120 ATP"
+    ],
+    correct: 2
+},
+{
+    question: "What is the primary function of the electron transport chain?",
+    options: [
+        "A) To convert glucose into pyruvate",
+        "B) To oxidize NADH and FADH2 to generate ATP",
+        "C) To produce carbon dioxide as a waste product",
+        "D) To store energy in triglycerides"
+    ],
+    correct: 1
+},
+{
+    question: "Which statement best describes the proton gradient created by the electron transport chain?",
+    options: [
+        "A) It is used to synthesize NADH.",
+        "B) It is created by the diffusion of protons into the matrix.",
+        "C) It drives the synthesis of ATP via ATP synthase.",
+        "D) It results in the consumption of oxygen."
+    ],
+    correct: 2
+}
+
+    ];
+
+// Render questions
+function renderQuestions() {
+    const quizContainer = document.getElementById('quiz');
+    quizContainer.innerHTML = '';
+
+    questions.forEach((q, index) => {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question';
+        questionDiv.innerHTML = `
+            <h2>${index + 1}. ${q.question}</h2>
+            <ul class="options">
+                ${q.options.map((option, i) => `
+                    <li>
+                        <input type="radio" name="q${index}" value="${i}"> ${option}
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+        quizContainer.appendChild(questionDiv);
+    });
+}
+
+// Check answers and display result
+function checkAnswers() {
+    let score = 0;
+
+    questions.forEach((q, index) => {
+        const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+        const optionsList = document.querySelectorAll(`input[name="q${index}"]`).forEach(input => {
+            const li = input.parentNode;
+            if (parseInt(input.value) === q.correct) {
+                li.classList.add('correct');
+            } else if (input.checked) {
+                li.classList.add('incorrect');
+            }
+        });
+
+        if (selectedOption && parseInt(selectedOption.value) === q.correct) {
+            score += 1;
+        }
+    });
+
+    const result = document.getElementById('result');
+    result.innerHTML = `You scored ${score} out of ${questions.length}`;
+    result.classList.add('visible');
+}
+
+// Initial rendering of questions
+renderQuestions();
+</script>
+</body>
+
+</html>
